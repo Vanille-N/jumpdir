@@ -1,0 +1,14 @@
+[package]
+name = "jumpdir"
+version = "0.0.0"
+authors = ["Vanille-N <neven.villani@gmail.com>"]
+edition = "2018"
+license = "MIT"
+description = "..."
+readme = "README.md"
+repository = "https://github.com/Vanille-N/jumpdir"
+keywords = []
+categories = []
+
+[dependencies]
+
