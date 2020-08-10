@@ -26,3 +26,8 @@ fn subfolders(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
         .filter(|r| r.is_dir())
         .collect())
 }
+
+fn is_completion(p: &Path, cwd: &Path, arg: &str) -> bool {
+    println!("<{:?}> <{:?}> <{:?}>", p, cwd, arg);
+    p.to_str().unwrap().starts_with(&(cwd.to_str().unwrap().to_owned() + "/" + arg))
+}
