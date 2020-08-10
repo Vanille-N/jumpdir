@@ -11,3 +11,6 @@ keywords = ["utility", "cd", "autocompletion"]
 categories = ["command-line-utilities", "development-tools"]
 
 [dependencies]
+
+[[bin]]
+name = "jumpdir"
