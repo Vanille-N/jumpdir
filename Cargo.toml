@@ -4,11 +4,10 @@ version = "0.0.0"
 authors = ["Vanille-N <neven.villani@gmail.com>"]
 edition = "2018"
 license = "MIT"
-description = "..."
+description = "A better completion function for cd"
 readme = "README.md"
 repository = "https://github.com/Vanille-N/jumpdir"
-keywords = []
-categories = []
+keywords = ["utility", "cd", "autocompletion"]
+categories = ["command-line-utilities", "development-tools"]
 
 [dependencies]
-
