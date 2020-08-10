@@ -5,17 +5,20 @@ use std::fs;
 
 fn main() {
     let mut args = env::args().skip(1);
-    let arg = args.next().unwrap();
-    let dir = Path::new(&arg);
-    match subfolders(&dir) {
+    let arg = args.next().unwrap_or("".to_string());
+    let cwd = env::current_dir().expect("Failed to detect environment");
+    match subfolders(&cwd) {
         Ok(sub) => {
-            if sub.len() == 1 {
+            let sub: Vec<_> = sub.into_iter()
+                .filter(|p| is_completion(p, &cwd, &arg))
+                .collect();
+            if sub.len() >= 1 {
                 println!("{}", sub[0].display());
             } else {
-                println!("{}", &dir.display());
+                println!("{}", &arg);
             }
         }
-        Err(_) => println!("{}", &dir.display()),
+        Err(_) => println!("{}", &arg),
     }
 }
 
