@@ -5,9 +5,18 @@ use std::fs;
 
 fn main() {
     let mut args = env::args().skip(1);
-    let dirname = args.next().unwrap_or("".to_string());
-    let dir = env::current_dir().unwrap();
-    println!("{:?}", subfolders(&dir));
+    let arg = args.next().unwrap();
+    let dir = Path::new(&arg);
+    match subfolders(&dir) {
+        Ok(sub) => {
+            if sub.len() == 1 {
+                println!("{}", sub[0].display());
+            } else {
+                println!("{}", &dir.display());
+            }
+        }
+        Err(_) => println!("{}", &dir.display()),
+    }
 }
 
 fn subfolders(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
