@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_cd()
+_jumpdir()
 {
     local cur prev words cword
     _init_completion || return
@@ -40,10 +40,11 @@ _cd()
         fi
     fi
 
+
     return
 }
 if shopt -q cdable_vars; then
-    complete -v -F _cd -o nospace cd pushd
+    complete -v -F _jumpdir -o nospace cd pushd
 else
-    complete -F _cd -o nospace cd pushd
+    complete -F _jumpdir -o nospace cd pushd
 fi
