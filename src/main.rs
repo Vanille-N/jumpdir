@@ -7,12 +7,13 @@ fn main() {
     let mut args = env::args().skip(1);
     let dirname = args.next().unwrap_or("".to_string());
     let dir = env::current_dir().unwrap();
-    println!("{:?}", folders(&dir));
+    println!("{:?}", subfolders(&dir));
 }
 
-fn folders(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
-    fs::read_dir(dir)?
+fn subfolders(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
+    Ok(fs::read_dir(dir)?
         .into_iter()
-        .map(|x| x.map(|entry| entry.path()))
-        .collect()
+        .filter_map(|r| r.ok().map(|x| x.path()))
+        .filter(|r| r.is_dir())
+        .collect())
 }
