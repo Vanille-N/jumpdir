@@ -9,14 +9,11 @@ fn main() {
     let cwd = env::current_dir().expect("Failed to detect environment");
     match subfolders(&cwd) {
         Ok(sub) => {
-            let sub: Vec<_> = sub.into_iter()
+            sub.into_iter()
                 .filter(|p| is_completion(p, &cwd, &arg))
-                .collect();
-            if sub.len() == 1 {
-                println!("{}", sub[0].display());
-            } else {
-                println!("{}", &arg);
-            }
+                .map(|p| shorten(p, &cwd, &arg))
+                .for_each(|p| print!("{} ", p.display()));
+            println!();
         }
         Err(_) => println!("{}", &arg),
     }
@@ -31,6 +28,20 @@ fn subfolders(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
 }
 
 fn is_completion(p: &Path, cwd: &Path, arg: &str) -> bool {
-    // println!("<{:?}> <{:?}> <{:?}>", p, cwd, arg);
-    p.to_str().unwrap().starts_with(&(cwd.to_str().unwrap().to_owned() + "/" + arg))
+    // eprintln!("<{:?}> <{:?}> <{:?}>", p, cwd, arg);
+    p.canonicalize()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .starts_with(&(
+            cwd.canonicalize()
+                .unwrap()
+                .to_str()
+                .unwrap()
+                .to_owned() + "/" + arg
+            ))
+}
+
+fn shorten(p: &Path, cwd: &Path, arg: &str) -> bool {
+    unimplemented!()
 }
