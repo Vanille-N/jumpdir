@@ -12,7 +12,7 @@ fn main() {
             let sub: Vec<_> = sub.into_iter()
                 .filter(|p| is_completion(p, &cwd, &arg))
                 .collect();
-            if sub.len() >= 1 {
+            if sub.len() == 1 {
                 println!("{}", sub[0].display());
             } else {
                 println!("{}", &arg);
@@ -31,6 +31,6 @@ fn subfolders(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
 }
 
 fn is_completion(p: &Path, cwd: &Path, arg: &str) -> bool {
-    println!("<{:?}> <{:?}> <{:?}>", p, cwd, arg);
+    // println!("<{:?}> <{:?}> <{:?}>", p, cwd, arg);
     p.to_str().unwrap().starts_with(&(cwd.to_str().unwrap().to_owned() + "/" + arg))
 }
