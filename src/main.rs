@@ -14,13 +14,14 @@ fn main() {
         });
     let target = Path::new(&arg);
     let cwd = env::current_dir()
-        .expect("Failed to detect environment")
+        .expect("Failed to detect environment");
+    let partial = cwd
         .join(&target.strip_filename());
     // println!("{:?} {:?}", cwd, target);
-    match subfolders(&cwd) {
+    match subfolders(&partial) {
         Ok(sub) => {
             let valid = sub.into_iter()
-                .filter(|p| is_completion(p, &cwd, &target))
+                .filter(|p| is_completion(p, &partial, &target.get_filename()))
                 .map(|p| shorten(&p, &cwd))
                 .collect::<Vec<_>>();
             if valid.len() == 1 {
