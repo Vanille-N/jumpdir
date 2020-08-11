@@ -20,7 +20,7 @@ fn main() {
                 .map(|p| shorten(&p, &cwd))
                 .collect::<Vec<_>>();
             if valid.len() == 1 {
-                print!("<{}>", valid[0]);
+                println!("{}/", valid[0]);
             } else {
                 valid.into_iter()
                     .for_each(|s| println!("{} ", s));
