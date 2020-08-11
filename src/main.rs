@@ -49,9 +49,9 @@ fn is_completion(p: &Path, cwd: &Path, arg: &Path) -> bool {
         .to_str()
         .unwrap()
         .starts_with(
-            &cwd.join(arg)
-                .canonicalize()
+            &cwd.canonicalize()
                 .unwrap()
+                .join(arg)
                 .to_str()
                 .unwrap()
             )
@@ -83,6 +83,13 @@ impl StripFilename for Path {
         match self.to_str().unwrap().chars().last() {
             Some('/') => PathBuf::from(self),
             _ => PathBuf::from(self.parent().unwrap_or(Path::new(""))),
+        }
+    }
+
+    fn get_filename(&self) -> Self::OwnedSelf {
+        match self.to_str().unwrap().chars().last() {
+            Some('/') => PathBuf::from(""),
+            _ => PathBuf::from(self.file_name().unwrap_or(std::ffi::OsStr::new(""))),
         }
     }
 }
