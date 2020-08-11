@@ -1,3 +1,3 @@
 #!/bin/bash
 
-complete -C jumpdir cd
+complete -C jumpdir -o nospace cd
