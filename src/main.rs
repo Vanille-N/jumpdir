@@ -47,6 +47,16 @@ fn is_completion(p: &Path, cwd: &Path, arg: &str) -> bool {
             ))
 }
 
-fn shorten(p: &Path, cwd: &Path, arg: &str) -> bool {
-    unimplemented!()
+fn shorten(p: &Path, cwd: &Path) -> String {
+    let p = p.canonicalize()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .to_owned();
+    let cwd = cwd.canonicalize()
+        .unwrap()
+        .to_str()
+        .unwrap()
+        .to_owned();
+    String::from(&p[cwd.len()+1..])
 }
