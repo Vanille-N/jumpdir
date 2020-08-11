@@ -28,7 +28,7 @@ fn main() {
                 println!("{}/", valid[0]);
             } else {
                 valid.into_iter()
-                    .for_each(|s| println!("{} ", s));
+                    .for_each(|s| println!("{} ", Path::new(&s).get_filename().to_str().unwrap()));
             }
         }
         Err(_) => println!("{}", target.display()),
