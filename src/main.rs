@@ -12,11 +12,14 @@ fn main() {
             Some(s) => s,
             None => "",
         });
-    let cwd = env::current_dir().expect("Failed to detect environment");
+    let target = Path::new(&arg);
+    let cwd = env::current_dir()
+        .expect("Failed to detect environment")
+        .join(&target.parent().unwrap_or(Path::new("")));
     match subfolders(&cwd) {
         Ok(sub) => {
             let valid = sub.into_iter()
-                .filter(|p| is_completion(p, &cwd, &arg))
+                .filter(|p| is_completion(p, &cwd, &target))
                 .map(|p| shorten(&p, &cwd))
                 .collect::<Vec<_>>();
             if valid.len() == 1 {
@@ -26,7 +29,7 @@ fn main() {
                     .for_each(|s| println!("{} ", s));
             }
         }
-        Err(_) => println!("{}", &arg),
+        Err(_) => println!("{}", target.display()),
     }
 }
 
@@ -38,19 +41,19 @@ fn subfolders(dir: &Path) -> Result<Vec<PathBuf>, io::Error> {
         .collect())
 }
 
-fn is_completion(p: &Path, cwd: &Path, arg: &str) -> bool {
+fn is_completion(p: &Path, cwd: &Path, arg: &Path) -> bool {
     // eprintln!("<{:?}> <{:?}> <{:?}>", p, cwd, arg);
     p.canonicalize()
         .unwrap()
         .to_str()
         .unwrap()
-        .starts_with(&(
-            cwd.canonicalize()
+        .starts_with(
+            &cwd.join(arg)
+                .canonicalize()
                 .unwrap()
                 .to_str()
                 .unwrap()
-                .to_owned() + "/" + arg
-            ))
+            )
 }
 
 fn shorten(p: &Path, cwd: &Path) -> String {
