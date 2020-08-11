@@ -4,7 +4,8 @@ use std::io;
 use std::fs;
 
 fn main() {
-    let mut args = env::args().skip(1);
+    let mut args = env::args().skip(2);
+    // args.for_each(|p| eprintln!("{}", p));
     let arg = String::from(
         match args.next().as_deref() {
             Some("cd") => "",
