@@ -15,7 +15,8 @@ fn main() {
     let target = Path::new(&arg);
     let cwd = env::current_dir()
         .expect("Failed to detect environment")
-        .join(&target.parent().unwrap_or(Path::new("")));
+        .join(&target.strip_filename());
+    // println!("{:?} {:?}", cwd, target);
     match subfolders(&cwd) {
         Ok(sub) => {
             let valid = sub.into_iter()
@@ -68,4 +69,20 @@ fn shorten(p: &Path, cwd: &Path) -> String {
         .unwrap()
         .to_owned();
     String::from(&p[cwd.len()+1..])
+}
+
+trait StripFilename {
+    type OwnedSelf;
+    fn strip_filename(&self) -> Self::OwnedSelf;
+    fn get_filename(&self) -> Self::OwnedSelf;
+}
+
+impl StripFilename for Path {
+    type OwnedSelf = PathBuf;
+    fn strip_filename(&self) -> Self::OwnedSelf {
+        match self.to_str().unwrap().chars().last() {
+            Some('/') => PathBuf::from(self),
+            _ => PathBuf::from(self.parent().unwrap_or(Path::new(""))),
+        }
+    }
 }
