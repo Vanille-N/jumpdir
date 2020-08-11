@@ -15,11 +15,16 @@ fn main() {
     let cwd = env::current_dir().expect("Failed to detect environment");
     match subfolders(&cwd) {
         Ok(sub) => {
-            sub.into_iter()
+            let valid = sub.into_iter()
                 .filter(|p| is_completion(p, &cwd, &arg))
-                .map(|p| shorten(p, &cwd, &arg))
-                .for_each(|p| print!("{} ", p.display()));
-            println!();
+                .map(|p| shorten(&p, &cwd))
+                .collect::<Vec<_>>();
+            if valid.len() == 1 {
+                print!("<{}>", valid[0]);
+            } else {
+                valid.into_iter()
+                    .for_each(|s| println!("{} ", s));
+            }
         }
         Err(_) => println!("{}", &arg),
     }
