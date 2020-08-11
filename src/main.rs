@@ -5,7 +5,12 @@ use std::fs;
 
 fn main() {
     let mut args = env::args().skip(1);
-    let arg = args.next().unwrap_or("".to_string());
+    let arg = String::from(
+        match args.next().as_deref() {
+            Some("cd") => "",
+            Some(s) => s,
+            None => "",
+        });
     let cwd = env::current_dir().expect("Failed to detect environment");
     match subfolders(&cwd) {
         Ok(sub) => {
