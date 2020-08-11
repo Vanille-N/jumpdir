@@ -11,3 +11,11 @@
 This project draws inspiration from [`z`](https://github.com/rupa/z)
 
 It aims to retain the main functionality of `z` all the while being more predictable and suitable for specifying relative paths.
+
+The short-term goal is to provide the same functionality as the default `_cd()` function, then `z`-like behavior will be added.
+
+Roadmap:
+  [X] Autocomplete directory
+  [X] Display when multiple options are available
+  [ ] Autocomplete subdirectories
+  [ ] Full `_cd()` compatibility
