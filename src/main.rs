@@ -17,6 +17,7 @@ fn main() {
         .expect("Failed to detect environment");
     let partial = cwd
         .join(&target.strip_filename());
+    let base = remove_completion(&partial, &target);
     // println!("{:?} {:?}", cwd, target);
     match subfolders(&partial) {
         Ok(sub) => {
@@ -28,7 +29,7 @@ fn main() {
                 println!("{}/", valid[0]);
             } else {
                 valid.into_iter()
-                    .for_each(|s| println!("{} ", Path::new(&s).get_filename().to_str().unwrap()));
+                    .for_each(|s| println!("{} ", Path::new(&s).to_str().unwrap()));
             }
         }
         Err(_) => println!("{}", target.display()),
@@ -70,6 +71,10 @@ fn shorten(p: &Path, cwd: &Path) -> String {
         .unwrap()
         .to_owned();
     String::from(&p[cwd.len()+1..])
+}
+
+fn remove_completion(partial: &Path, target: &Path) -> PathBuf {
+    unimplemented!()
 }
 
 trait StripFilename {
